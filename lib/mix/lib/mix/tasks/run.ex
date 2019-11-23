@@ -61,6 +61,9 @@ defmodule Mix.Tasks.Run do
 
   @impl true
   def run(args) do
+    IO.puts("Run.run")
+    IO.inspect(args)
+
     {opts, head} =
       OptionParser.parse_head!(
         args,
@@ -83,6 +86,8 @@ defmodule Mix.Tasks.Run do
       )
 
     run(args, opts, head, &Code.eval_string/1, &Code.require_file/1)
+
+    IO.inspect(opts)
 
     unless Keyword.get(opts, :halt, true) do
       IO.puts("System.no_halt")
