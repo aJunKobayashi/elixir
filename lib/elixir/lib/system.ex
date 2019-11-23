@@ -623,14 +623,10 @@ defmodule System do
   def halt(status \\ 0)
 
   def halt(status) when is_integer(status) or status == :abort do
-    IO.puts("halt")
-    IO.inspect(status)
     :erlang.halt(status)
   end
 
   def halt(status) when is_binary(status) do
-    IO.puts("halt")
-    IO.inspect(status)
     :erlang.halt(String.to_charlist(status))
   end
 
