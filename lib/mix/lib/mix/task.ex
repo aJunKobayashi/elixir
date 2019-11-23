@@ -293,20 +293,32 @@ defmodule Mix.Task do
     IO.puts("alias")
     IO.inspect(alias)
 
-    cond do
-      alias && Mix.TasksServer.run({:alias, task, proj}) ->
-        IO.puts("run_alias")
-        res = run_alias(List.wrap(alias), args, :ok)
-        Mix.TasksServer.put({:task, task, proj})
-        res
+    result =
+      cond do
+        alias && Mix.TasksServer.run({:alias, task, proj}) ->
+          IO.puts("run_alias")
+          res = run_alias(List.wrap(alias), args, :ok)
+          Mix.TasksServer.put({:task, task, proj})
+          res
 
-      Mix.TasksServer.run({:task, task, proj}) ->
-        IO.puts("run_task")
-        run_task(proj, task, args)
+        Mix.TasksServer.run({:task, task, proj}) ->
+          IO.puts("run_task")
+          run_task(proj, task, args)
 
-      true ->
-        :noop
+        true ->
+          :noop
+      end
+
+    IO.puts("no_halt(): #{System.no_halt()}")
+
+    {opts, _, _} = OptionParser.parse(args, strict: [halt: :boolean])
+
+    if task == "run" and not Keyword.get(opts, :halt, true) do
+      IO.puts("sleep infinity")
+      Process.sleep(:infinity)
     end
+
+    result
   end
 
   defp run_task(proj, task, args) do
