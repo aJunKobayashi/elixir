@@ -12,6 +12,9 @@ defmodule Mix.TasksServer do
   end
 
   def run(tuple) do
+    IO.puts("call Mix.TasksServer.run()")
+    IO.inspect(tuple)
+
     get_and_update(fn set ->
       {not Map.has_key?(set, tuple), Map.put(set, tuple, true)}
     end)
