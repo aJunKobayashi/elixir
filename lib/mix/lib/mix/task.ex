@@ -271,16 +271,24 @@ defmodule Mix.Task do
   end
 
   def run(task, args) when is_binary(task) do
+    IO.puts("Mix.Task.run")
+    IO.inspect(task)
+    IO.inspect(args)
     proj = Mix.Project.get()
     alias = Mix.Project.config()[:aliases][String.to_atom(task)]
 
+    IO.puts("alias")
+    IO.inspect(alias)
+
     cond do
       alias && Mix.TasksServer.run({:alias, task, proj}) ->
+        IO.puts("run_alias")
         res = run_alias(List.wrap(alias), args, :ok)
         Mix.TasksServer.put({:task, task, proj})
         res
 
       Mix.TasksServer.run({:task, task, proj}) ->
+        IO.puts("run_task")
         run_task(proj, task, args)
 
       true ->
@@ -313,6 +321,8 @@ defmodule Mix.Task do
         Mix.TasksServer.put({:task, task, proj})
 
         try do
+          IO.puts("module.run")
+          IO.inspect(module)
           module.run(args)
         rescue
           e in OptionParser.ParseError ->

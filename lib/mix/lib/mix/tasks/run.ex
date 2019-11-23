@@ -82,8 +82,15 @@ defmodule Mix.Tasks.Run do
         ]
       )
 
+    IO.puts("Mix.Tasks.Run.run")
+    IO.inspect(opts)
     run(args, opts, head, &Code.eval_string/1, &Code.require_file/1)
-    unless Keyword.get(opts, :halt, true), do: Process.sleep(:infinity)
+
+    unless Keyword.get(opts, :halt, true) do
+      IO.inspect("sleep infinity")
+      Process.sleep(:infinity)
+    end
+
     Mix.Task.reenable("run")
     :ok
   end

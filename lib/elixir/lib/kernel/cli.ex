@@ -225,6 +225,7 @@ defmodule Kernel.CLI do
   end
 
   defp parse_shared(["--no-halt" | t], config) do
+    IO.puts("parse_shard, --no-halt")
     parse_shared(t, %{config | halt: false})
   end
 

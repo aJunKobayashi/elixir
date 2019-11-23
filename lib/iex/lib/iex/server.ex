@@ -126,7 +126,7 @@ defmodule IEx.Server do
 
   defp run(opts) when is_list(opts) do
     IO.puts(
-      "Interactive Elixir (#{System.version()}) - press Ctrl+C to exit (type h() ENTER for help)"
+      "Interactive Elixir Custom (#{System.version()}) - press Ctrl+C to exit (type h() ENTER for help)"
     )
 
     evaluator = start_evaluator(opts)
